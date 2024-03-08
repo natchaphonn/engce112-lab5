@@ -1,0 +1,98 @@
+sudo apt update
+sudo apt upgrade
+sudo apt install mysql-server
+sudo systemctl status mysql
+
+sudo apt update
+sudo apt-get install -y nodejs
+sudo apt install npm
+node -v
+npm -v
+
+sudo apt update
+sudo apt install git
+git --version
+
+โคลนแอป
+git clone https://github.com/DBMSRmutl/dbms-svelte.git
+cd coffee-basic-app
+
+sudo mysql_secure_installation
+sudo mysql -u root -p
+
+enter
+n
+y
+P@ssw0rd
+y
+n
+y
+y
+
+ls -al
+
+sudo mysql -u root -p
+create database my_app
+
+my_app < ./db.sql
+
+
+show databases;
+use my_app;
+show tables;
+exit;
+
+cd server/
+
+vi .env
+DATABASE_URL="mysql://root:P@ssw0rd@localhost:3306/my_app"
+
+npx prisma db push
+
+npm i
+npx prisma generate
+npm run dev
+
+เข้าหลังบ้าน
+localhost:3000
+ควรขึ้น
+notfound(เนื่องจากไม่อนุญาตให้เรียกตรงๆ)
+
+localhost:3000/coffee
+จะขึ้นเป็น JSON
+
+ssh -i ~\.ssh\id_rsa_gcp_dbms methapon2001@35.186.157.170 -L 3000:localhost:3000 -L 3001:localhost:3001 -L 5173:localhost:5173
+
+ssh-keygen -t rsa -b 4096 -C "nut"
+ssh -i ~\.ssh\id_rsa nut@34.93.37.71 -L 3000:localhost:3000 -L 3001:localhost:3001 -L 5173:localhost:5173 -L 80:localhost:80
+
+npm i
+npx prisma generate
+npm run dev
+
+
+*** ทำ client ***
+cd coffee-basic-app/client/
+
+vi .env
+PUBLIC_BACKEND_URL=http://localhost:3000
+PUBLIC_SOCKET_URL=http://localhost:3001
+
+sudo ufw allow from 35.200.150.42 to any port 5713
+
+
+npm i
+npm run dev -- --host=35.200.150.42 --port=5713
+
+npm i
+npm run dev
+http://localhost:5173/
+
+nvm install 19.9.0
+
+VM has a firewall rule that allows TCP ingress traffic from the IP range 35.235.240.0/20, port: 22
+
+
+
+
+

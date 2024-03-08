@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Coffee {
+  id           String  @id @default(nanoid(12)) @db.Char(12)
+  name         String
+  stock        Float   @default(0)
+  type         String?
+  maxOrder     Float   @default(1)
+  roastedLevel Int     @default(1)
+  price        Float   @default(0)
+
+  order Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  ACCEPTED
+  DONE
+  CANCELED
+}
+
+model Order {
+  id     String      @id @default(nanoid(12)) @db.Char(12)
+  name   String
+  status OrderStatus
+  qty    Float
+
+  coffee   Coffee @relation(fields: [coffeeId], references: [id], onUpdate: Cascade)
+  coffeeId String @db.Char(12)
+
+  village   Village @relation(fields: [villageId], references: [id])
+  villageId String  @db.Char(8)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([createdAt(sort: Desc), coffeeId])
+}
+
+model Province {
+  id   String @id @db.Char(2)
+  name String
+
+  district District[]
+}
+
+model District {
+  id   String @id @db.Char(4)
+  name String
+
+  province   Province @relation(fields: [provinceId], references: [id])
+  provinceId String   @db.Char(2)
+
+  subDistrict SubDistrict[]
+}
+
+model SubDistrict {
+  id   String @id @db.Char(6)
+  name String
+
+  district   District @relation(fields: [districtId], references: [id])
+  districtId String   @db.Char(4)
+
+  village Village[]
+}
+
+model Village {
+  id   String @id @db.Char(8)
+  name String
+  no   Int
+
+  subDistrict   SubDistrict @relation(fields: [subDistrictId], references: [id])
+  subDistrictId String      @db.Char(6)
+  Order         Order[]
+}
